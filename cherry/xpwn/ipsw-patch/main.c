@@ -148,11 +148,6 @@ int main(int argc, char* argv[]) {
     //char *origibot;
     
     char* bundlePath;
-#ifdef JB
-    char* bundleRoot = "JailbreakBundles/";
-#else
-    char* bundleRoot = "FirmwareBundles/";
-#endif
     int mergePaths;
     char* outputIPSW;
     
@@ -166,6 +161,7 @@ int main(int argc, char* argv[]) {
     
     char noWipe = FALSE;
     
+    char useJailbreak = FALSE;
     char unlockBaseband = FALSE;
     char selfDestruct = FALSE;
     char use39 = FALSE;
@@ -201,7 +197,7 @@ int main(int argc, char* argv[]) {
          );
     
 	if(argc < 3) {
-		XLOG(0, "usage %s <input.ipsw> <target.ipsw> [-b <bootimage.png>] [-r <recoveryimage.png>] [-s <system partition size>] [-S <system partition add>] [-memory] [-bbupdate] [-tethered] [-derebusantiquis <ipsw>] [-a <apticket.xml>] [-ota BuildManifest] [-nowipe] [-e \"<action to exclude>\"] [-ramdiskgrow <blocks>] [[-unlock] [-use39] [-use46] [-cleanup] -3 <bootloader 3.9 file> -4 <bootloader 4.6 file>] <package1.tar> <package2.tar>...\n", argv[0]);
+		XLOG(0, "usage %s <input.ipsw> <target.ipsw> [-j Jailbreak] [-b <bootimage.png>] [-r <recoveryimage.png>] [-s <system partition size>] [-S <system partition add>] [-memory] [-bbupdate] [-tethered] [-derebusantiquis <ipsw>] [-a <apticket.xml>] [-ota BuildManifest] [-nowipe] [-e \"<action to exclude>\"] [-ramdiskgrow <blocks>] [[-unlock] [-use39] [-use46] [-cleanup] -3 <bootloader 3.9 file> -4 <bootloader 4.6 file>] <package1.tar> <package2.tar>...\n", argv[0]);
         
         XLOG(0, "\nch3rry's option:%s <input.ipsw> <target.ipsw> [-memory] [-bbupdate] [-derebusantiquis <ipsw>] [-a <apticket.xml>] <package1.tar> <package2.tar> ...\n", argv[0]);
         
@@ -222,6 +218,11 @@ int main(int argc, char* argv[]) {
 			useMemory = TRUE;
 			continue;
 		}
+        
+        if(strcmp(argv[i], "-j") == 0) {
+            useJailbreak = TRUE;
+            continue;
+        }
 
 		if(strcmp(argv[i], "-s") == 0) {
 			int size;
@@ -367,6 +368,15 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
+    char* bundleRoot;
+    
+    if(useJailbreak == TRUE){
+        bundleRoot = "JailbreakBundles/";
+    } else {
+        bundleRoot = "FirmwareBundles/";
+    }
+    
+    
 	mergePaths = i;
 
 	if(use39 || use46 || unlockBaseband || selfDestruct || bootloader39 || bootloader46) {

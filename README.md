@@ -1,6 +1,6 @@
 # cherryflowerJB
 v1.4.2 beta 1
-by @dora2_yuruyi
+by @dora2ios
 
 
 # What tool is this?
